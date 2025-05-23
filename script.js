@@ -1,3 +1,5 @@
+import OpenAI from "openai";
+
 navigator.mediaDevices.getUserMedia({ video: true })
   .then(stream => {
     const video = document.getElementById('camera');
@@ -125,7 +127,7 @@ function AddComponent() {
     formContainer.appendChild(container);
 }
 
-function GetListData()
+async function GetListData()
 {
     const components = [];
 
@@ -157,7 +159,14 @@ function GetListData()
     });
 
     const projectPrompt = document.getElementById('projectPrompt').value;
-    CheckWithAI("Using the provided JSON list of components and their models, generate a JSON file structured as follows: Each component (e.g., 'MOSFET') should include its pin mappings in the format 'Pin1': 'pintoconnect', 'Pin2': 'pintoconnect', etc. Additionally, create a 'code' entry containing any necessary code to implement the wiring connections for each component, ensuring the setup meets the specified project goal:\n" + projectPrompt + "\n" + components)
+    const client = new OpenAI();
+
+    const response = await client.responses.create({
+        model: "gpt-4.1",
+        input: "Using the provided JSON list of components and their models, generate a JSON file structured as follows: Each component (e.g., 'MOSFET') should include its pin mappings in the format 'Pin1': 'pintoconnect', 'Pin2': 'pintoconnect', etc. Additionally, create a 'code' entry containing any necessary code to implement the wiring connections for each component, ensuring the setup meets the specified project goal:\n" + projectPrompt + "\n" + components
+    });
+
+    console.log(response.output_text);
 }
 
 

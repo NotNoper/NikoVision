@@ -11,6 +11,7 @@ navigator.mediaDevices.getUserMedia({ video: true })
 
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
+const formContainer = document.getElementById('componentListContainer');
 
 const client = new OpenAI();
 
@@ -47,8 +48,6 @@ function Capture() {
     const dataURL = canvas.toDataURL('image/png');
     FindPart(dataURL);
 }
-
-const formContainer = document.getElementById('componentListContainer');
 
 function AddComponent() {
     const container = document.createElement('div');
@@ -151,7 +150,7 @@ async function GetListData()
         } 
         else if (componentType === 'Resistor') {
             const selects = componentDiv.querySelectorAll('select');
-            const bandColors = Array.from(selects).slice(1).map(select => select.value); // skip the first select (type)
+            const bandColors = Array.from(selects).slice(1).map(select => select.value);
             componentData.bands = bandColors;
         }
 

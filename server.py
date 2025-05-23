@@ -56,8 +56,7 @@ def upload_image():
         params = {
             "engine": "google_reverse_image",
             "image_url": url_param,
-            "api_key": SERPAPI_API_KEY,
-            "tbs": "itp:photo,isz:l"
+            "api_key": SERPAPI_API_KEY
         }
 
         search = requests.get("https://serpapi.com/search", params=params)

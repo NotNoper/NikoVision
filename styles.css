@@ -8,21 +8,23 @@ body {
   font-family: 'Poppins', sans-serif;
   background: linear-gradient(to right, #e3ffe7, #d9e7ff);
   color: #333;
-  line-height: 1.6;
-  padding: 20px;
+  padding: 40px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 30px;
+  min-height: 100vh;
 }
 
+/* Title */
 h1 {
-  text-align: center;
-  font-size: 2.5em;
-  margin-bottom: 30px;
-  color: #333;
+  font-size: 3em;
+  color: #222;
+  margin-bottom: 10px;
+  text-shadow: 1px 1px 2px #ccc;
 }
 
-/* Camera container */
+/* Camera Container */
 .camera-container {
   display: flex;
   flex-direction: column;
@@ -31,79 +33,105 @@ h1 {
   width: 100%;
   max-width: 600px;
   padding: 20px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: #ffffffd9;
+  border-radius: 16px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
-/* Video and Canvas */
+/* Video & Canvas */
 video, canvas {
   width: 100%;
-  border-radius: 8px;
-  background: #000;
   aspect-ratio: 4 / 3;
   object-fit: cover;
+  border-radius: 10px;
+  background: #000;
 }
 
-/* Buttons */
-.buttons {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-  justify-content: center;
-  width: 100%;
-}
-
+/* Global Buttons */
 button {
   background: linear-gradient(to right, #04AA6D, #028a57);
   color: white;
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 10px 20px;
   border: none;
-  border-radius: 6px;
-  padding: 10px 16px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 }
 
 button:hover {
   background: linear-gradient(to right, #028a57, #026b44);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 button:disabled {
-  background: #ccc;
+  background: #bbb;
   cursor: not-allowed;
 }
 
-#componentListContainer li:nth-child(odd) {
-  background: #eef2f3;
+/* Component List Container */
+#componentListContainer {
+  width: 100%;
+  max-width: 600px;
+  background: #ffffffd6;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-#componentListContainer li button {
-  background: crimson;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-#componentListContainer li button:hover {
-  background: darkred;
-}
-
-#componentListContainer li {
-  padding: 12px;
-  margin: 8px 0;
-  border-radius: 8px;
+#projectPrompt {
+  padding: 10px 12px;
   font-size: 16px;
-  font-weight: bold;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background: #f8f9fa;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* List Items */
+#componentList li {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 12px 16px;
+  margin: 6px 0;
+  border-radius: 8px;
+  background: #f1f3f5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-weight: 500;
 }
 
+#componentList li:nth-child(odd) {
+  background: #e9edf0;
+}
+
+#componentList li button {
+  background: #d32f2f;
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  color: white;
+}
+
+#componentList li button:hover {
+  background: #a00000;
+}
+
+/* Output Section */
+#componentWiring,
+#wiring,
+#code {
+  margin-top: 10px;
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 600px;
+  word-wrap: break-word;
+  background: #fff8e1;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}

@@ -23,13 +23,13 @@ async function FindPart(imgBase64) {
         const result = await response.json();
         console.log(result);
 
-        CheckWithAI("Given a list of website names mentioning a component, return only the matching component name. Only one match is correct, even if others are mentioned. Output only the name of the component, and if it is an IC whether or not it is on a shield or not. If it is not a component, respond with 'null': " + JSON.stringify(result));
+        //CheckWithAI(JSON.stringify(result));
 
     } catch (error) {
         console.error(error);
     }
 }
-
+/*
 async function CheckWithAI(prompt)
 {
     try {
@@ -53,7 +53,7 @@ async function CheckWithAI(prompt)
       console.error('Error:', err);
     }
 }
-
+*/
 function Capture() {
     const video = document.getElementById('camera');
     canvas.width = video.videoWidth;

@@ -13,7 +13,7 @@ CORS(app)
 STATIC_FOLDER = os.path.join(os.getcwd(), "static")
 os.makedirs(STATIC_FOLDER, exist_ok=True)
 
-client = OpenAI()
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 @app.route('/upload-image', methods=['POST'])
 def upload_image():

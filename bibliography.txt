@@ -2,8 +2,22 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS/Errors/CORSMissing
 
 https://srivastavayushmaan1347.medium.com/how-to-access-camera-and-capture-photos-using-javascript-80bf7b53b45d
 
-https://console.cloud.google.com/apis/api/generativelanguage.googleapis.com/metrics?authuser=3&inv=1&invt=AbyI2g&project=nikovision
+https://platform.openai.com/docs/api-reference/responses/create
 
-https://serpapi.com/google-reverse-image
+https://www.kaggle.com/code/kerneler/starter-electronic-components-and-4229bcb3-a/input
+
+https://www.kaggle.com/code/kavitha247/starter-electronic-components-and-f6224343-9/notebook
+
+https://www.kaggle.com/datasets/eralpozcan/resistor-dataset
+
+https://www.kaggle.com/code/tannergi/detectron2-microcontroller-detection/notebook
+
+https://www.datacamp.com/blog/yolo-object-detection-explained
+
+https://www.kaggle.com/code/kerneler/starter-electronic-components-and-4229bcb3-a/data
+
+https://www.kaggle.com/datasets/tannergi/microcontroller-detection
+
+
 
 https://chatgpt.com/

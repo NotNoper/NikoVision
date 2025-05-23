@@ -22,7 +22,7 @@ async function FindPart(imgBase64) {
 
         const result = await response.json();
         console.log(result);
-
+        
         //CheckWithAI(JSON.stringify(result));
 
     } catch (error) {

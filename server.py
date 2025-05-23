@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import base64
 import os
 from openai import OpenAI
+from inference_sdk import InferenceHTTPClient
 
 load_dotenv() 
 
@@ -13,7 +14,8 @@ CORS(app)
 STATIC_FOLDER = os.path.join(os.getcwd(), "static")
 os.makedirs(STATIC_FOLDER, exist_ok=True)
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+#client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+ROBOFLOW_API_KEY = os.getenv("ROBOFLOW_API_KEY")
 
 @app.route('/upload-image', methods=['POST'])
 def upload_image():
@@ -28,27 +30,45 @@ def upload_image():
 
         url_param = 'https://nikovision.onrender.com/static/image.png'
 
-        response = client.responses.create(
-            model="gpt-4.1",
-            input=[
-                {
-                    "role": "user",
-                    "content": [
-                        { "type": "input_text", "text": "Given this image of a component, return only the matching component name. Output only the name of the component, and if it is an IC whether or not it is on a shield or not. If it is not a component, respond with 'null'. The specific component is needed, or if it is an IC, just respond with 'IC': " },
-                        {
-                            "type": "input_image",
-                            "image_url": url_param,
-                        }
-                    ]
-                }
-            ]
+        client = InferenceHTTPClient(
+            api_url="https://serverless.roboflow.com",
+            api_key=ROBOFLOW_API_KEY
         )
 
-        print(response)
-        results = response.json().output.content.text
-        print(results)
+        result = client.run_workflow(
+            workspace_name="ai-bewl6",
+            workflow_id="small-object-detection-sahi",
+            images={
+                "image": url_param
+            },
+            use_cache=False
+        )
 
-        return results.json()
+        print(result)
+
+        return result.json()
+        
+        #response = client.responses.create(
+        #    model="gpt-4.1",
+        #    input=[
+        #        {
+        #            "role": "user",
+        #            "content": [
+        #                { "type": "input_text", "text": "Given this image of a component, return only the matching component name. Output only the name of the component, and if it is an IC whether or not it is on a shield or not. If it is not a component, respond with 'null'. The specific component is needed, or if it is an IC, just respond with 'IC': " },
+        #                {
+        #                    "type": "input_image",
+        #                    "image_url": url_param,
+        #                }
+        #            ]
+        #        }
+        #    ]
+        #)
+
+        #print(response)
+        #results = response.json().output.content.text
+        #print(results)
+        
+        #return results.json()
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500

@@ -3,4 +3,5 @@ flask_cors
 openai
 jsonify
 dotenv
+inference_sdk
 gunicorn

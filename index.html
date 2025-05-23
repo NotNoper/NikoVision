@@ -9,4 +9,15 @@
     <canvas id="canvas" style="display: none"></canvas>
     <button onclick="Capture()">Capture</button>
 </div>
+<div id = "componentListContainer">
+    <input type="text" id = "projectPrompt">
+    <button onclick="AddComponent()">Add Component</button>
+    <ul id="componentList"></ul>
+</div>
+<div>
+    <button onclick = "GetListData()">Submit</button>
+    <ul id="componentWiring"></ul>
+    <p id="wiring"></p>
+    <p id = "code"></p>
+</div>  
 <script src = "script.js"></script>

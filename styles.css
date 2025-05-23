@@ -75,3 +75,35 @@ button:disabled {
   background: #ccc;
   cursor: not-allowed;
 }
+
+#componentListContainer li:nth-child(odd) {
+  background: #eef2f3;
+}
+
+#componentListContainer li button {
+  background: crimson;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#componentListContainer li button:hover {
+  background: darkred;
+}
+
+#componentListContainer li {
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: #f8f9fa;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+

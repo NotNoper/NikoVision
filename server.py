@@ -57,32 +57,23 @@ def upload_image():
 def check_name(titles):
     return {"component_name": titles[0] if titles else "Unknown"}
 
-#@app.route('/check-ai', methods=['POST'])
-#def check_ai():
-#    try:
-#        data = request.json
-#        prompt = data.get('prompt')
-#
-#        response = client.models.generate_content(
-#            model="gemini-2.0-flash",
-#            contents=prompt,
-#            config=config,
-#        )
+@app.route('/check-ai', methods=['POST'])
+def CheckAI():
+    try:
+        data = request.json
+        prompt = data.get('prompt')
 
-#        if response.candidates[0].content.parts[0].function_call:
-#            function_call = response.candidates[0].content.parts[0].function_call
-#            print(f"Function to call: {function_call.name}")
-#            print(f"Arguments: {function_call.args}")
+        response = client.responses.create(
+            model="gpt-4.1",
+            input=prompt
+        )
 
-#            result = check_name(**function_call.args)
-#            return jsonify(result)
+        print(response.output_text)
 
-#        else:
-#            print("No function call found in the response.")
-#            return jsonify({"message": "No function call found in Gemini response."})
+        return response.output_text.json()
 
-#    except Exception as e:
-#        return jsonify({'error': str(e)}), 500
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

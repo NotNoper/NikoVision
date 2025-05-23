@@ -47,39 +47,50 @@ def upload_image():
         img_base64 = data.get('imageBase64', '').split(",")[1]
         img_bytes = base64.b64decode(img_base64)
 
-        img_base64_encoded = base64.b64encode(img_bytes).decode('utf-8')
+        filepath = os.path.join(STATIC_FOLDER, 'image.png')
+        with open(filepath, "wb") as f:
+            f.write(img_bytes)
 
-        payload = {
-            "requests": [
-                {
-                    "image": {
-                        "content": img_base64_encoded
-                    },
-                    "features": [
-                        {
-                            "type": "IMAGE_PROPERTIES"
-                        }
-                    ]
-                }
-            ]
+        url_param = 'https://nikovision.onrender.com/static/image.png'
+
+        params = {
+            "engine": "google_reverse_image",
+            "image_url": url_param,
+            "api_key": SERPAPI_API_KEY,
+            "no_cache": True
         }
 
-        response = requests.post(
-            f"https://vision.googleapis.com/v1/images:annotate?key={client}",
-            json=payload
-        )
+        response = requests.get("https://serpapi.com/search", params=params)
+        results = response.json()
 
-        response_data = response.json()
+        if "visual_matches" in results:
+            return jsonify({"type": "visual_matches", "results": results["visual_matches"]})
 
-        similar_images = []
-        for result in response_data["responses"][0]["imagePropertiesAnnotation"]["dominantColors"]:
-            similar_images.append(result["color"])
+        best_guess = results.get("search_metadata", {}).get("best_guess")
+        if best_guess:
+            text_params = {
+                "engine": "google",
+                "q": best_guess,
+                "api_key": SERPAPI_API_KEY
+            }
+            text_search = requests.get("https://serpapi.com/search", params=text_params)
+            text_results = text_search.json()
 
-        return jsonify({"type": "visual_matches", "results": similar_images})
+            organic_results = text_results.get("organic_results", [])
+            return jsonify({
+                "type": "best_guess",
+                "query": best_guess,
+                "results": organic_results
+            })
+
+        return jsonify({
+            "error": "No recognizable matches found.",
+            "serpapi_response": results
+        })
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-    
+
 
 def check_name(titles):
     return {"component_name": titles[0] if titles else "Unknown"}

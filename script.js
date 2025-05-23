@@ -1,5 +1,3 @@
-const XRAPIDAPIKEY = 'b8386253fdmshbe8970057b30fc4p15de5cjsn361c2b16bf81';
-
 navigator.mediaDevices.getUserMedia({ video: true })
   .then(stream => {
     const video = document.getElementById('camera');

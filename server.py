@@ -47,11 +47,13 @@ def upload_image():
         img_base64 = data.get('imageBase64', '').split(",")[1]
         img_bytes = base64.b64decode(img_base64)
 
+        img_base64_encoded = base64.b64encode(img_bytes).decode('utf-8')
+
         payload = {
             "requests": [
                 {
                     "image": {
-                        "content": img_bytes
+                        "content": img_base64_encoded
                     },
                     "features": [
                         {
@@ -74,9 +76,10 @@ def upload_image():
             similar_images.append(result["color"])
 
         return jsonify({"type": "visual_matches", "results": similar_images})
-    
+
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
 
 def check_name(titles):
     return {"component_name": titles[0] if titles else "Unknown"}

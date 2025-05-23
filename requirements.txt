@@ -1,1 +1,7 @@
-pip install flask, flask_cors, request, jsonify, dotenv, base64, os, google, google.genai
+flask
+flask_cors
+requests
+jsonify
+dotenv
+google
+google.genai

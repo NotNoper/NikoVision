@@ -1,0 +1,9 @@
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS/Errors/CORSMissingAllowOrigin
+
+https://srivastavayushmaan1347.medium.com/how-to-access-camera-and-capture-photos-using-javascript-80bf7b53b45d
+
+https://rapidapi.com/rphrp1985/api/chatgpt-42/playground/apiendpoint_d70b7407-2b7a-49f9-8fd7-b0596c7abd38
+
+https://rapidapi.com/letscrape-6bRBa3QguO5/api/real-time-lens-data/playground/endpoint_e9193f4d-e7de-4a34-93d0-756dd270e980
+
+https://chatgpt.com/

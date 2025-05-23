@@ -1,4 +1,4 @@
-import OpenAI from "openai";
+//import OpenAI from "openai";
 
 navigator.mediaDevices.getUserMedia({ video: true })
   .then(stream => {
@@ -12,7 +12,7 @@ const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const formContainer = document.getElementById('componentListContainer');
 
-const client = new OpenAI();
+//const client = new OpenAI();
 
 async function FindPart(imgBase64) {
     try {

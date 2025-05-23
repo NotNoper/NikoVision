@@ -56,20 +56,21 @@ def upload_image():
         params = {
             "engine": "google_reverse_image",
             "image_url": url_param,
-            "api_key": SERPAPI_API_KEY
+            "api_key": SERPAPI_API_KEY,
+            "no_cache": True
         }
 
         search = requests.get("https://serpapi.com/search", params=params)
         results = search.json()
         print("Full API Response:", results) 
 
-        inline_images = results.get("inline_images", None)
+        visual_matches = results.get("visual_matches")
+        if visual_matches:
+            return jsonify(visual_matches)
 
-        if inline_images is None:
-            return jsonify({'error': "'inline_images' key not found in API response", 'full_response': results})
-
-        return jsonify(inline_images)
-
+        inline_images = results.get("inline_images")
+        if inline_images:
+            return jsonify(inline_images)
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500

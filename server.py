@@ -53,7 +53,7 @@ def upload_image():
             f.write(img_bytes)
 
         #url_param = 'http://127.0.0.1:5000/static/{filename}'
-        url_param = 'https://srv-d0o14iqli9vc73fi62hg.onrender.com/static/z.png'
+        url_param = 'https://nikovision.onrender.com/static/z.png'
 
         params = {
             "engine": "google_reverse_image",

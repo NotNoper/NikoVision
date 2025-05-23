@@ -12,7 +12,7 @@ const context = canvas.getContext('2d');
 
 async function FindPart(imgBase64) {
     try {
-        const response = await fetch('https://srv-d0o14iqli9vc73fi62hg.onrender.com/upload-image', {
+        const response = await fetch('https://nikovision.onrender.com/upload-image', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -33,7 +33,7 @@ async function FindPart(imgBase64) {
 async function CheckWithAI(prompt)
 {
     try {
-        const response = await fetch('https://srv-d0o14iqli9vc73fi62hg.onrender.com/check-ai', {
+        const response = await fetch('https://nikovision.onrender.com/check-ai', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt: prompt })

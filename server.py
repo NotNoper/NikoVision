@@ -43,8 +43,8 @@ config = types.GenerateContentConfig(tools=[tools])
 @app.route('/upload-image', methods=['POST'])
 def upload_image():
     try:
-        data = request.json
-        img_base64 = data.get('imageBase64').split(",")[1]
+        data = request.get_json(force=True)
+        img_base64 = data.get('imageBase64', '').split(",")[1]
         img_bytes = base64.b64decode(img_base64)
 
         filepath = os.path.join(STATIC_FOLDER, 'image.png')
@@ -60,21 +60,39 @@ def upload_image():
             "no_cache": True
         }
 
-        search = requests.get("https://serpapi.com/search", params=params)
-        results = search.json()
-        print("Full API Response:", results) 
+        response = requests.get("https://serpapi.com/search", params=params)
+        results = response.json()
 
-        visual_matches = results.get("visual_matches")
-        if visual_matches:
-            return jsonify(visual_matches)
+        if "inline_images" in results:
+            return jsonify({"type": "inline_images", "results": results["inline_images"]})
 
-        inline_images = results.get("inline_images")
-        if inline_images:
-            return jsonify(inline_images)
+        if "visual_matches" in results:
+            return jsonify({"type": "visual_matches", "results": results["visual_matches"]})
+
+        best_guess = results.get("search_metadata", {}).get("best_guess")
+        if best_guess:
+            text_params = {
+                "engine": "google",
+                "q": best_guess,
+                "api_key": SERPAPI_API_KEY
+            }
+            text_search = requests.get("https://serpapi.com/search", params=text_params)
+            text_results = text_search.json()
+
+            organic_results = text_results.get("organic_results", [])
+            return jsonify({
+                "type": "best_guess",
+                "query": best_guess,
+                "results": organic_results
+            })
+
+        return jsonify({
+            "error": "No recognizable matches found.",
+            "serpapi_response": results
+        })
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
 
 
 def check_name(titles):

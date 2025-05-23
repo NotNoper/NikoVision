@@ -12,7 +12,7 @@ navigator.mediaDevices.getUserMedia({ video: true })
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 
-var components = [];
+const client = new OpenAI();
 
 async function FindPart(imgBase64) {
     try {
@@ -159,7 +159,6 @@ async function GetListData()
     });
 
     const projectPrompt = document.getElementById('projectPrompt').value;
-    const client = new OpenAI();
 
     const response = await client.responses.create({
         model: "gpt-4.1",

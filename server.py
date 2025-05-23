@@ -53,27 +53,5 @@ def upload_image():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-
-def check_name(titles):
-    return {"component_name": titles[0] if titles else "Unknown"}
-
-@app.route('/check-ai', methods=['POST'])
-def CheckAI():
-    try:
-        data = request.json
-        prompt = data.get('prompt')
-
-        response = client.responses.create(
-            model="gpt-4.1",
-            input=prompt
-        )
-
-        print(response.output_text)
-
-        return response.output_text.json()
-
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
 if __name__ == '__main__':
     app.run(debug=True)

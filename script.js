@@ -8,7 +8,6 @@ navigator.mediaDevices.getUserMedia({ video: true })
   })
   .catch(err => console.error('Camera error:', err));
 
-
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 const formContainer = document.getElementById('componentListContainer');
@@ -28,14 +27,13 @@ async function FindPart(imgBase64) {
         const result = await response.json();
         console.log(result);
         
-        //CheckWithAI(JSON.stringify(result));
-
+        //AddComponent()
     } catch (error) {
         console.error(error);
     }
 }
 
-function Capture() {
+export function Capture() {
     const video = document.getElementById('camera');
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
@@ -49,7 +47,7 @@ function Capture() {
     FindPart(dataURL);
 }
 
-function AddComponent() {
+export function AddComponent() {
     const container = document.createElement('div');
     container.className = 'componentList';
 
@@ -126,7 +124,7 @@ function AddComponent() {
     formContainer.appendChild(container);
 }
 
-async function GetListData()
+export async function GetListData()
 {
     const components = [];
 

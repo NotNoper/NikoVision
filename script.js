@@ -165,23 +165,8 @@ async function GetListData()
     });
 
     console.log(response.output_text);
-}
-
-
-async function CheckWithAI(prompt)
-{
-    try {
-        const response = await fetch('https://nikovision.onrender.com/check-ai', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: prompt })
-        });
-        const data = await response.json();
-        const codeResult = document.getElementById('code');
-        const wiringResult = document.getElementById('wiring');
-        wiringResult.textContent = data;
-        codeResult.textContent = data.code;
-    } catch (err) {
-      console.error('Error:', err);
-    }
+    const codeResult = document.getElementById('code');
+    const wiringResult = document.getElementById('wiring');
+    wiringResult.textContent = response;
+    codeResult.textContent = JSON.stringify(response.output_text).code;
 }

@@ -4,4 +4,7 @@ openai
 jsonify
 dotenv
 inference_sdk
+ultralytics
+cv2
+uuid
 gunicorn

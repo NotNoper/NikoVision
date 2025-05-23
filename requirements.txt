@@ -1,17 +1,5 @@
 flask
 flask_cors
-<<<<<<< HEAD
 openai
-python-dotenv
-inference_sdk
-ultralytics
-opencv-python
-gunicorn
-=======
-requests
-jsonify
 dotenv
-google
-google.genai
 gunicorn
->>>>>>> parent of 92ee283 (changed to ChatGPT API)

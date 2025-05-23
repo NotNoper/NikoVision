@@ -47,13 +47,12 @@ def upload_image():
         img_base64 = data.get('imageBase64').split(",")[1]
         img_bytes = base64.b64decode(img_base64)
 
-        filename = "image.png"
-        filepath = os.path.join(STATIC_FOLDER, filename)
+        filepath = os.path.join(STATIC_FOLDER, 'image.png')
         with open(filepath, "wb") as f:
             f.write(img_bytes)
 
-        url_param = 'https://nikovision.onrender.com/static/{filename}'
-        
+        url_param = 'https://nikovision.onrender.com/static/image.png'
+
         params = {
             "engine": "google_reverse_image",
             "image_url": url_param,

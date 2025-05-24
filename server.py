@@ -26,7 +26,7 @@ def upload_image():
         with open(filepath, "wb") as f:
             f.write(img_bytes)
 
-        url_param = 'http://127.0.0.1:5000/static/image.png'
+        url_param = 'https://nikovision.onrender.com/static/image.png'
 
         response = client.chat.completions.create(
             model="gpt-4o", 
@@ -34,7 +34,7 @@ def upload_image():
                 {
                     "role": "user",
                     "content": [
-                        {"type": "text", "text": "Given this image of a component, return only the matching component name. Output only the name of the component, and if it is an IC whether or not it is on a shield or not. If it is not a component, respond with 'null'. The specific component is needed, or if it is an IC, just respond with 'IC': "},
+                        {"type": "text", "text": "Given this image of a component, return only the matching component name (e.g, capacitor, led, IC etc.). Output only the name of the component. If it is not a component, respond with 'null': "},
                         {
                             "type": "image_url",
                             "image_url": {

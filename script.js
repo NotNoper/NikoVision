@@ -173,6 +173,10 @@ function RevealCamera()
 async function CheckWithAI(prompt)
 {
     try {
+        Array.from(document.getElementsByClassName('container')).forEach(element => {
+            element.style.display = "block";
+        });
+
         const response = await fetch('https://nikovision.onrender.com/check-ai', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -181,6 +185,11 @@ async function CheckWithAI(prompt)
         const data = await response.json();
         const codeResult = document.getElementById('code');
         const wiringContainer = document.getElementById('componentWiringContainer');
+        for(let i = 0; i < wiringContainer.children.length; i++)
+        {
+            wiringContainer.children[i].remove();
+        }
+
         for (let i = 0; i < data.components.length; i++) {
             const selectComponent = document.createElement('table');
 
@@ -221,6 +230,9 @@ async function CheckWithAI(prompt)
             wiringContainer.appendChild(selectComponent);
         }
         codeResult.textContent = data.code;
+        Array.from(document.getElementsByClassName('container')).forEach(element => {
+            element.style.display = "none";
+        });
     } catch (err) {
       console.error('Error:', err);
       CheckWithAI(prompt);

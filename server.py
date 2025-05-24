@@ -64,14 +64,16 @@ def CheckAI():
     try:
         data = request.json
         prompt = data.get('prompt')
+        
 
-        response = client.chat.completions.create(
-            model="gpt-4.1",
+        response = OpenAI.ChatCompletion.create(
+            model="gpt-4",
             messages=[
-                {"role": "system", "content": "You are a senior engineer working out the wiring of components for someones project. You only respond in JSON"},
+                {"role": "system", "content": "You are a helpful AI assistant."},
                 {"role": "user", "content": prompt}
             ]
         )
+
 
         print(response.choices[0].message['content'])
 

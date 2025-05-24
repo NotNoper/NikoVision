@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <head>
     <link rel = "stylesheet" href = "styles.css">
-    <h1>The eyes of TJ Proctor</h1>
+    <h1>niko ist sehr hot</h1>
 </head>
 <br>
-<div class="camera-container">
+<div id = "componentListContainer">
+    <input type="text" value="Replace this with what you want to make" id = "projectPrompt">
+    <button onclick="AddComponent()">Add Component</button>
+    <ul id="componentList"></ul>
+</div>
+<button onclick="RevealCamera()">Add by picture</button>
+<div class="camera-container" id = "camContainer" style="display: none">
     <video id="camera" autoplay></video>
     <canvas id="canvas" style="display: none"></canvas>
     <button onclick="Capture()">Capture</button>
-</div>
-<div id = "componentListContainer">
-    <input type="text" id = "projectPrompt">
-    <button onclick="AddComponent()">Add Component</button>
-    <ul id="componentList"></ul>
 </div>
 <div>
     <button onclick = "GetListData()">Submit</button>

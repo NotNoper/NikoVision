@@ -1,12 +1,3 @@
-navigator.mediaDevices.getUserMedia({ video: true })
-  .then(stream => {
-    const video = document.getElementById('camera');
-    video.srcObject = stream;
-    video.play();
-  })
-  .catch(err => console.error('Camera error:', err));
-
-
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 
@@ -25,7 +16,7 @@ async function FindPart(imgBase64) {
         const result = await response.json();
         console.log(result);
         
-        //CheckWithAI(JSON.stringify(result));
+        //AddComponent(result);
 
     } catch (error) {
         console.error(error);
@@ -48,7 +39,7 @@ function Capture() {
 
 const formContainer = document.getElementById('componentListContainer');
 
-function AddComponent() {
+function AddComponent(knownComponent = null) {
     const container = document.createElement('div');
     container.className = 'componentList';
 
@@ -109,6 +100,11 @@ function AddComponent() {
     };
     container.appendChild(deleteButton);
 
+    if(knownComponent !== null)
+    {
+        container.selectComponent.value = knownComponent.type;
+    }
+
     formContainer.appendChild(container);
 }
 
@@ -140,6 +136,18 @@ function GetListData()
     CheckWithAI("Using the provided JSON list of components and their models that the user has (you do not have to use all components, just try and focus on them), generate a JSON file structured as follows: Each component (e.g., 'MOSFET') should include its pin mappings in the format 'Pin1': 'pintoconnect', 'Pin2': 'pintoconnect', etc. Additionally, create a 'code' entry containing any necessary code to implement the wiring connections for each component, ensuring the setup meets the specified project goal. This is the JSON format: 'components': [ { 'name': 'Arduino Uno', 'model': 'Uno R3', 'pins': { 'DigitalPin13': 'LED Anode', 'GND': 'LED Cathode'}},{'name': 'LED','model': '5mm Red','pins': {'Anode (Long leg)': 'Arduino DigitalPin13','Cathode (Short leg)': 'Resistor (1)','Cathode Pass-through': 'Arduino GND'}},{'name': 'Resistor (1)','model': '220 Ohm','pins': {'Pin1': 'LED Cathode','Pin2': 'Arduino GND'}}]. If no code is needed, the 'code' entry can be left empty. Follow the project exactly:\n" + projectPrompt + "\n" + components)
 }
 
+function RevealCamera()
+{
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        const video = document.getElementById('camera');
+        video.srcObject = stream;
+        video.play();
+      })
+      .catch(err => console.error('Camera error:', err));
+
+    document.getElementById('camContainer').style.display = "block";
+}
 
 async function CheckWithAI(prompt)
 {

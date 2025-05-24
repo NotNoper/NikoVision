@@ -18,6 +18,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 @app.route('/upload-image', methods=['POST'])
 def upload_image():
     try:
+        print("Received request to upload image")
         data = request.get_json(force=True)
         img_base64 = data.get('imageBase64', '').split(",")[1]
         img_bytes = base64.b64decode(img_base64)

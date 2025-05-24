@@ -26,9 +26,7 @@ def upload_image():
         with open(filepath, "wb") as f:
             f.write(img_bytes)
 
-        image_url = 'https://nikovision.onrender.com/static/image.png'
-        assert not image_url.endswith('.'), "URL ends with a period!"
-        assert not image_url.endswith("'"), "URL ends with a comma but tall!"
+        image_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Iconic_image_of_a_LED.jpg/640px-Iconic_image_of_a_LED.jpg"
 
         response = client.chat.completions.create(
             model="gpt-4o", 

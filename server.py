@@ -73,9 +73,9 @@ def CheckAI():
             ]
         )
 
-        print(response.content)
+        print(response.choices[0].message['content'])
 
-        return response.content
+        return response.choices[0].message['content']
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500

@@ -127,8 +127,6 @@ function AddComponent() {
 
 function GetListData()
 {
-    const components = [];
-
     Array.from(formContainer.children).forEach(componentDiv => {
         const select = componentDiv.querySelector('select');
         const componentType = select?.value;
@@ -157,7 +155,7 @@ function GetListData()
     });
 
     const projectPrompt = document.getElementById('projectPrompt').value;
-    CheckWithAI("Using the provided JSON list of components and their models, generate a JSON file structured as follows: Each component (e.g., 'MOSFET') should include its pin mappings in the format 'Pin1': 'pintoconnect', 'Pin2': 'pintoconnect', etc. Additionally, create a 'code' entry containing any necessary code to implement the wiring connections for each component, ensuring the setup meets the specified project goal:\n" + projectPrompt + "\n" + components)
+    CheckWithAI("Using the provided JSON list of components and their models, generate a JSON file structured as follows: Each component (e.g., 'MOSFET') should include its pin mappings in the format 'Pin1': 'pintoconnect', 'Pin2': 'pintoconnect', etc. Additionally, create a 'code' entry containing any necessary code to implement the wiring connections for each component, ensuring the setup meets the specified project goal. This is the JSON format: 'components': [ { 'name': 'Arduino Uno', 'model': 'Uno R3', 'pins': { 'DigitalPin13': 'LED Anode', 'GND': 'LED Cathode'}},{'name': 'LED','model': '5mm Red','pins': {'Anode (Long leg)': 'Arduino DigitalPin13','Cathode (Short leg)': 'Resistor (1)','Cathode Pass-through': 'Arduino GND'}},{'name': 'Current Limiting Resistor','model': '220 Ohm','pins': {'Pin1': 'LED Cathode','Pin2': 'Arduino GND'}}]:\n" + projectPrompt + "\n" + components)
 }
 
 
@@ -171,8 +169,23 @@ async function CheckWithAI(prompt)
         });
         const data = await response.json();
         const codeResult = document.getElementById('code');
-        const wiringResult = document.getElementById('wiring');
-        wiringResult.textContent = data;
+        const wiringContainer = document.getElementById('componentWiringContainer');
+        for(let i = 0; i < components.length; i++)
+        {
+            const selectComponent = document.createElement('table');
+            for(let z = 0; z < data.components[i]; z++)
+            {
+                const tr = document.createElement('tr');
+                for(let y = 0; y < data.components[i][z].length; y++)
+                {
+                    const td = document.createElement('td');
+                    td.textContent = data.components[i][z][y];
+                    tr.appendChild(td);
+                }
+                selectComponent.appendChild(tr);
+            }
+            wiringContainer.appendChild(selectComponent);
+        }
         codeResult.textContent = data.code;
     } catch (err) {
       console.error('Error:', err);

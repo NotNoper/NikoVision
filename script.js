@@ -16,7 +16,7 @@ async function FindPart(imgBase64) {
         const result = await response.json();
         console.log('Component detected:', result);
         
-        // AddComponent({ type: result.component_name });
+        AddComponent({ type: result.component_name }, { type: result.model });
 
     } catch (error) {
         console.error('Error during image upload:', error);
@@ -40,7 +40,7 @@ function Capture() {
 
 const formContainer = document.getElementById('componentListContainer');
 
-function AddComponent(knownComponent = null) {
+function AddComponent(knownComponent = null, model = null) {
     const container = document.createElement('div');
     container.className = 'componentList';
 
@@ -54,6 +54,7 @@ function AddComponent(knownComponent = null) {
         <option value="Diode">Diode</option>
         <option value="Transistor">Transistor</option>
     `;
+    
     container.appendChild(selectComponent);
 
     const detailsDiv = document.createElement('div');
@@ -92,6 +93,17 @@ function AddComponent(knownComponent = null) {
             detailsDiv.appendChild(info);
         }
     });
+    
+    if(knownComponent !== null)
+    {
+        selectComponent.value = knownComponent?.type;
+        selectComponent.dispatchEvent(new Event('change'));
+        if(knownComponent?.model !== null && (knownComponent === "Microntroller" || knownComponent === 'IC'))
+        {
+            const input = detailsDiv.querySelector('input');
+            input.value = model;
+        }
+    }
 
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
@@ -100,11 +112,6 @@ function AddComponent(knownComponent = null) {
         formContainer.removeChild(container);
     };
     container.appendChild(deleteButton);
-
-    if(knownComponent !== null)
-    {
-        container.selectComponent.value = knownComponent.type;
-    }
 
     formContainer.appendChild(container);
 }
@@ -134,7 +141,7 @@ function GetListData()
     });
 
     const projectPrompt = document.getElementById('projectPrompt').value;
-    CheckWithAI("Using the provided JSON list of components and their models that the user has (you do not have to use all components, just try and focus on them), generate a JSON file structured as follows: Each component (e.g., 'MOSFET') should include its pin mappings in the format 'Pin1': 'pintoconnect', 'Pin2': 'pintoconnect', etc. Additionally, create a 'code' entry containing any necessary code to implement the wiring connections for each component, ensuring the setup meets the specified project goal. This is the JSON format: 'components': [ { 'name': 'Arduino Uno', 'model': 'Uno R3', 'pins': { 'DigitalPin13': 'LED Anode', 'GND': 'LED Cathode'}},{'name': 'LED','model': '5mm Red','pins': {'Anode (Long leg)': 'Arduino DigitalPin13','Cathode (Short leg)': 'Resistor (1)','Cathode Pass-through': 'Arduino GND'}},{'name': 'Resistor (1)','model': '220 Ohm','pins': {'Pin1': 'LED Cathode','Pin2': 'Arduino GND'}}]. If no code is needed, the 'code' entry can be left empty. Follow the project exactly:\n" + projectPrompt + "\n" + components)
+    CheckWithAI("Using the provided JSON list of components and their models that the user has (you do not have to use all components, just try and focus on them), generate a JSON file structured as follows: Each component (e.g., 'MOSFET') should include its pin mappings in the format 'Pin1': 'pintoconnect', 'Pin2': 'pintoconnect', etc. Additionally, create a 'code' entry containing any necessary code to implement the wiring connections for each component, ensuring the setup meets the specified project goal. This is the JSON format: 'components': [ { 'name': 'Arduino Uno', 'model': 'Uno R3', 'pins': { 'DigitalPin13': 'LED Anode', 'GND': 'LED Cathode'}},{'name': 'LED','model': '5mm Red','pins': {'Anode (Long leg)': 'Arduino DigitalPin13','Cathode (Short leg)': 'Resistor (1)','Cathode Pass-through': 'Arduino GND'}},{'name': 'Resistor (1)','model': '220 Ohm','pins': {'Pin1': 'LED Cathode','Pin2': 'Arduino GND'}}]. If no code is needed, the 'code' entry can be left empty. If the object is a some sort of microcontroller, respond with Microcontroller. Follow the project exactly:\n" + projectPrompt + "\n" + components)
 }
 
 function RevealCamera()

@@ -31,7 +31,7 @@ def upload_image():
                 {
                     "role": "user",
                     "content": [
-                        {"type": "text", "text": "Given this image of a component, return only the matching component name (e.g, capacitor, led, IC etc.). Output only the name of the component. If it is not a component, respond with 'null': "},
+                        {"type": "text", "text": "Given this image of a component, return only with a JSON with the matching component name (e.g, capacitor, led, IC etc.) and its model if able. The JSON should look like this: {'component_name': 'LED', 'model': '5mm Red'}. If it is not a component, respond 'null' in the JSON's: "},
                         {
                             "type": "image_url",
                             "image_url": {

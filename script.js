@@ -62,6 +62,14 @@ function AddComponent(knownComponent = null) {
         <option value="Resistor">Resistor</option>
         <option value="Diode">Diode</option>
         <option value="Transistor">Transistor</option>
+
+        <option value="Battery">Battery</option>
+        <option value="Relay">Relay</option>
+        <option value="Capacitor">Capacitor</option>
+        <option value="Potentiometer">Potentiometer</option>
+        <option value="Buzzer">Buzzer</option>
+        <option value="Accelerometer">Accelerometer</option>
+        <option value="Gyroscope">Gyroscope</option>
     `;
     
     container.appendChild(selectComponent);
@@ -72,7 +80,7 @@ function AddComponent(knownComponent = null) {
     selectComponent.addEventListener('change', () => {
         detailsDiv.innerHTML = '';
         const selected = selectComponent.value;
-        if (selected === "Microcontroller" || selected === 'IC') {
+        if (selected === "Microcontroller" || selected === 'IC' || selected === 'Battery' || selected === 'Accelerometer' || selected === 'Gyroscope') {
             const label = document.createElement('label');
             label.textContent = 'Model (required): ';
             const input = document.createElement('input');
@@ -86,7 +94,7 @@ function AddComponent(knownComponent = null) {
             label.appendChild(input);
             detailsDiv.appendChild(label);
         } 
-        else if (selected === 'Transistor' || selected === 'Diode') {
+        else if (selected === 'Transistor' || selected === 'Diode' || selected === 'Relay' || selected === 'Capacitor') {
             const label = document.createElement('label');
             label.textContent = `${selected} Model (optional): `;
             const input = document.createElement('input');
@@ -95,16 +103,11 @@ function AddComponent(knownComponent = null) {
             label.appendChild(input);
             detailsDiv.appendChild(label);
         } 
-        else if (selected === 'Resistor') {
+        else if (selected === 'Resistor' || selected === 'Potentiometer' || selected === 'LED') {
             const info = document.createElement('p');
             info.textContent = 'No additional input needed for this component.';
             detailsDiv.appendChild(info);
         } 
-        else if (selected === 'LED') {
-            const info = document.createElement('p');
-            info.textContent = 'No additional input needed for this component.';
-            detailsDiv.appendChild(info);
-        }
     });
     
     if(knownComponent.component_name !== null)

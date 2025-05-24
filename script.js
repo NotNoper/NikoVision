@@ -90,22 +90,9 @@ function AddComponent() {
             detailsDiv.appendChild(label);
         } 
         else if (selected === 'Resistor') {
-            const bands = ['Band 1', 'Band 2', 'Band 3', 'Band 4'];
-            bands.forEach(band => {
-                const label = document.createElement('label');
-                label.textContent = `${band}: `;
-                const select = document.createElement('select');
-                const colors = ['Black', 'Brown', 'Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Violet', 'Grey', 'White', 'Gold', 'Silver'];
-                colors.forEach(color => {
-                    const option = document.createElement('option');
-                    option.value = color.toLowerCase();
-                    option.textContent = color;
-                    select.appendChild(option);
-                });
-                label.appendChild(select);
-                detailsDiv.appendChild(label);
-                detailsDiv.appendChild(document.createElement('br'));
-            });
+            const info = document.createElement('p');
+            info.textContent = 'No additional input needed for this component.';
+            detailsDiv.appendChild(info);
         } 
         else if (selected === 'LED') {
             const info = document.createElement('p');
@@ -145,17 +132,12 @@ function GetListData()
             const input = componentDiv.querySelector('input');
             componentData.model = input?.value || '';
         } 
-        else if (componentType === 'Resistor') {
-            const selects = componentDiv.querySelectorAll('select');
-            const bandColors = Array.from(selects).slice(1).map(select => select.value); 
-            componentData.bands = bandColors;
-        }
 
         components.push(componentData);
     });
 
     const projectPrompt = document.getElementById('projectPrompt').value;
-    CheckWithAI("Using the provided JSON list of components and their models, generate a JSON file structured as follows: Each component (e.g., 'MOSFET') should include its pin mappings in the format 'Pin1': 'pintoconnect', 'Pin2': 'pintoconnect', etc. Additionally, create a 'code' entry containing any necessary code to implement the wiring connections for each component, ensuring the setup meets the specified project goal. This is the JSON format: 'components': [ { 'name': 'Arduino Uno', 'model': 'Uno R3', 'pins': { 'DigitalPin13': 'LED Anode', 'GND': 'LED Cathode'}},{'name': 'LED','model': '5mm Red','pins': {'Anode (Long leg)': 'Arduino DigitalPin13','Cathode (Short leg)': 'Resistor (1)','Cathode Pass-through': 'Arduino GND'}},{'name': 'Current Limiting Resistor','model': '220 Ohm','pins': {'Pin1': 'LED Cathode','Pin2': 'Arduino GND'}}]:\n" + projectPrompt + "\n" + components)
+    CheckWithAI("Using the provided JSON list of components and their models, generate a JSON file structured as follows: Each component (e.g., 'MOSFET') should include its pin mappings in the format 'Pin1': 'pintoconnect', 'Pin2': 'pintoconnect', etc. Additionally, create a 'code' entry containing any necessary code to implement the wiring connections for each component, ensuring the setup meets the specified project goal. This is the JSON format: 'components': [ { 'name': 'Arduino Uno', 'model': 'Uno R3', 'pins': { 'DigitalPin13': 'LED Anode', 'GND': 'LED Cathode'}},{'name': 'LED','model': '5mm Red','pins': {'Anode (Long leg)': 'Arduino DigitalPin13','Cathode (Short leg)': 'Resistor (1)','Cathode Pass-through': 'Arduino GND'}},{'name': 'Current Limiting Resistor','model': '220 Ohm','pins': {'Pin1': 'LED Cathode','Pin2': 'Arduino GND'}}]. If no code is needed, the 'code' entry can be left empty. Follow the project exactly:\n" + projectPrompt + "\n" + components)
 }
 
 
@@ -175,17 +157,36 @@ async function CheckWithAI(prompt)
 
             const component = data.components[i];
             for (const key in component) {
-                const tr = document.createElement('tr');
+                if (key === 'pins') {
+                    const pinsObj = component.pins;
+                    for (const pinName in pinsObj) {
+                        const tr = document.createElement('tr');
 
-                const tdKey = document.createElement('td');
-                tdKey.textContent = key;
-                tr.appendChild(tdKey);
+                        const tdKey = document.createElement('td');
+                        tdKey.textContent = pinName;
+                        tr.appendChild(tdKey);
 
-                const tdValue = document.createElement('td');
-                tdValue.textContent = component[key];
-                tr.appendChild(tdValue);
+                        const tdValue = document.createElement('td');
+                        tdValue.textContent = pinsObj[pinName];
+                        tr.appendChild(tdValue);
 
-                selectComponent.appendChild(tr);
+                        selectComponent.appendChild(tr);
+                    }
+                }
+
+                else if (key !== 'code') {
+                    const tr = document.createElement('tr');
+
+                    const tdKey = document.createElement('td');
+                    tdKey.textContent = key;
+                    tr.appendChild(tdKey);
+
+                    const tdValue = document.createElement('td');
+                    tdValue.textContent = component[key];
+                    tr.appendChild(tdValue);
+
+                    selectComponent.appendChild(tr);
+                }
             }
 
             wiringContainer.appendChild(selectComponent);

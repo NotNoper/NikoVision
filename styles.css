@@ -121,14 +121,11 @@ button:disabled {
   background: #a00000;
 }
 
-/* Output Section */
-#componentWiring,
-#wiring,
 #code {
   margin-top: 10px;
   font-size: 16px;
   line-height: 1.5;
-  max-width: 600px;
+  max-width: 800px;
   word-wrap: break-word;
   background: #fff8e1;
   padding: 12px;
@@ -148,7 +145,7 @@ button:disabled {
   padding: 8px;
 }
 
-#componentWiringContainer tr:nth-child(even){background-color: #f2f2f2;}
+#componentWiringContainer tr:nth-child(odd){background-color: #f2f2f2;}
 
 #componentWiringContainer tr:hover {background-color: #ddd;}
 

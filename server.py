@@ -20,40 +20,37 @@ def upload_image():
     try:
         print("Received request to upload image")
         data = request.get_json(force=True)
-        img_base64 = data.get('imageBase64', '').split(",")[1]
-        img_bytes = base64.b64decode(img_base64)
-
-        filepath = os.path.join(STATIC_FOLDER, 'image.png')
-        with open(filepath, "wb") as f:
-            f.write(img_bytes)
-
-        image_url = "https://nikovision.onrender.com/static/image.png"
-
+        img_base64_full = data.get('imageBase64', '')
+        
+        if ',' in img_base64_full:
+            img_base64 = img_base64_full.split(",")[1]
+        else:
+            img_base64 = img_base64_full
+        
         response = client.chat.completions.create(
             model="gpt-4o", 
             messages=[
                 {
                     "role": "user",
                     "content": [
-                        {"type": "text", "text": "Given this image of a component, return only the matching component name (e.g, capacitor, led, IC etc.). Output only the name of the component. If it is not a component, respond with 'null': "},
+                        {"type": "text", "text": "Given this image of a component, return only the matching component name (e.g., capacitor, led, IC etc.). Output only the name of the component. If it is not a component, respond with 'null': "},
                         {
-                            "type": "image_url",
-                            "image_url": {
-                                "url": image_url
-                            },
+                            "type": "image_base64",
+                            "image_base64": {
+                                "base64": img_base64
+                            }
                         },
                     ],
                 }
             ],
         )
 
-        print(response.choices[0].message.content)
         result = response.choices[0].message.content
-        print(result)
+        print("OpenAI response:", result)
         return jsonify({"component_name": result.strip()})
 
-
     except Exception as e:
+        print("Error in upload_image:", e)
         return jsonify({'error': str(e)}), 500
 
 

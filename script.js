@@ -13,15 +13,25 @@ async function FindPart(imgBase64) {
             body: JSON.stringify({ imageBase64: imgBase64 })
         });
 
-        const result = await response.json();
-        console.log(result);
-        
-        //AddComponent(result);
+        if (!response.ok) {
+            const errData = await response.json();
+            console.error("Upload error:", errData);
+            alert("Upload failed: " + (errData.error || "Unknown error"));
+            return;
+        }
 
+        const result = await response.json();
+        console.log("Component detected:", result.component_name);
+        // You can now call AddComponent with the detected component name if you want:
+        // AddComponent({ type: result.component_name });
+        
     } catch (error) {
-        console.error(error);
+        console.error("Network or other error:", error);
+        alert("Network error during image upload");
     }
 }
+
+
 
 function Capture() {
     const video = document.getElementById('camera');

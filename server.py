@@ -26,7 +26,7 @@ def upload_image():
         with open(filepath, "wb") as f:
             f.write(img_bytes)
 
-        image_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Iconic_image_of_a_LED.jpg/640px-Iconic_image_of_a_LED.jpg"
+        image_url = "https://nikovision.onrender.com/static/image.png"
 
         response = client.chat.completions.create(
             model="gpt-4o", 

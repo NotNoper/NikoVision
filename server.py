@@ -64,20 +64,18 @@ def CheckAI():
     try:
         data = request.json
         prompt = data.get('prompt')
-        
 
-        response = OpenAI.ChatCompletion.create(
-            model="gpt-4",
+        response = client.chat.completions.create(
+            model="gpt-4.1",
             messages=[
-                {"role": "system", "content": "You are a helpful AI assistant."},
+                {"role": "system", "content": "You are a senior engineer working out the wiring of components for someones project. You only respond in JSON"},
                 {"role": "user", "content": prompt}
             ]
         )
 
+        print(response.choices[0].message.content)
 
-        print(response.choices[0].message['content'])
-
-        return response.choices[0].message['content']
+        return response.choices[0].message.content
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500

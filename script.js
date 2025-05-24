@@ -173,7 +173,7 @@ async function CheckWithAI(prompt)
         for(let i = 0; i < components.length; i++)
         {
             const selectComponent = document.createElement('table');
-            for(let z = 0; z < data.components[i]; z++)
+            for(let z = 0; z < data.components[i].length; z++)
             {
                 const tr = document.createElement('tr');
                 for(let y = 0; y < data.components[i][z].length; y++)

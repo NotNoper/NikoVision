@@ -14,7 +14,7 @@ var components = [];
 
 async function FindPart(imgBase64) {
     try {
-        const response = await fetch('http://127.0.0.1:5000/upload-image', {
+        const response = await fetch('https://nikovision.onrender.com/upload-image', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -149,7 +149,7 @@ function GetListData()
         } 
         else if (componentType === 'Resistor') {
             const selects = componentDiv.querySelectorAll('select');
-            const bandColors = Array.from(selects).slice(1).map(select => select.value); // skip the first select (type)
+            const bandColors = Array.from(selects).slice(1).map(select => select.value); 
             componentData.bands = bandColors;
         }
 
@@ -164,7 +164,7 @@ function GetListData()
 async function CheckWithAI(prompt)
 {
     try {
-        const response = await fetch('http://127.0.0.1:5000/check-ai', {
+        const response = await fetch('https://nikovision.onrender.com/check-ai', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ prompt: prompt })

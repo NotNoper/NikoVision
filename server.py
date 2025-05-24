@@ -28,27 +28,29 @@ def upload_image():
 
         url_param = 'http://127.0.0.1:5000/static/image.png'
 
-        response = client.responses.create(
-            model="gpt-4.1",
-            input=[
+        response = client.chat.completions.create(
+            model="gpt-4o", 
+            messages=[
                 {
                     "role": "user",
                     "content": [
-                        { "type": "input_text", "text": "Given this image of a component, return only the matching component name. Output only the name of the component, and if it is an IC whether or not it is on a shield or not. If it is not a component, respond with 'null'. The specific component is needed, or if it is an IC, just respond with 'IC': " },
+                        {"type": "text", "text": "Given this image of a component, return only the matching component name. Output only the name of the component, and if it is an IC whether or not it is on a shield or not. If it is not a component, respond with 'null'. The specific component is needed, or if it is an IC, just respond with 'IC': "},
                         {
-                            "type": "input_image",
-                            "image_url": url_param,
-                        }
-                    ]
+                            "type": "image_url",
+                            "image_url": {
+                                "url": url_param
+                            },
+                        },
+                    ],
                 }
-            ]
+            ],
         )
 
-        print(response)
-        results = response.json().output.content.text
-        print(results)
+        print(response.choices[0].message.content)
+        result = response.choices[0].message.content
+        print(result)
+        return jsonify({"component_name": result.strip()})
 
-        return results.json()
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -71,9 +73,9 @@ def CheckAI():
             ]
         )
 
-        print(response['choices'][0]['message']['content'])
+        print(response.content)
 
-        return response['choices'][0]['message']['content']
+        return response.content
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500

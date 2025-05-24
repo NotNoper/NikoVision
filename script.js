@@ -147,6 +147,7 @@ function RevealCamera()
       .catch(err => console.error('Camera error:', err));
 
     document.getElementById('camContainer').style.display = "block";
+    document.getElementById("reveal").style.display = "none";
 }
 
 async function CheckWithAI(prompt)

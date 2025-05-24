@@ -10,4 +10,8 @@ https://github.com/NotNoper/NikoVision/tree/Without-AI
 
 https://dashboard.render.com/
 
+https://www.w3schools.com/howto/howto_js_toggle_hide_show.asp
+
+https://www.w3schools.com/html/html_tables.asp
+
 https://chatgpt.com/

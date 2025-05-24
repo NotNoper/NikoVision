@@ -26,8 +26,6 @@ def upload_image():
         with open(filepath, "wb") as f:
             f.write(img_bytes)
 
-        url_param = 'https://nikovision.onrender.com/static/image.png'
-
         response = client.chat.completions.create(
             model="gpt-4o", 
             messages=[
@@ -38,7 +36,7 @@ def upload_image():
                         {
                             "type": "image_url",
                             "image_url": {
-                                "url": url_param
+                                "url": 'https://nikovision.onrender.com/static/image.png'
                             },
                         },
                     ],

@@ -16,7 +16,7 @@ async function FindPart(imgBase64) {
         const result = await response.json();
         console.log('Component detected:', result);
         
-        AddComponent({ type: result.component_name }, { type: result.model });
+        AddComponent(result);
 
     } catch (error) {
         console.error('Error during image upload:', error);
@@ -40,7 +40,7 @@ function Capture() {
 
 const formContainer = document.getElementById('componentListContainer');
 
-function AddComponent(knownComponent = null, model = null) {
+function AddComponent(knownComponent = null) {
     const container = document.createElement('div');
     container.className = 'componentList';
 
@@ -72,7 +72,7 @@ function AddComponent(knownComponent = null, model = null) {
             input.placeholder = 'Enter model';
             if(knownComponent.model)
             {
-                input.value = model;
+                input.value = knownComponent.model;
             }
             label.appendChild(input);
             detailsDiv.appendChild(label);
@@ -98,9 +98,9 @@ function AddComponent(knownComponent = null, model = null) {
         }
     });
     
-    if(knownComponent !== null)
+    if(knownComponent.component_name !== null)
     {
-        selectComponent.value = knownComponent?.type;
+        selectComponent.value = knownComponent.component_name;
         selectComponent.dispatchEvent(new Event('change'));
     }
 

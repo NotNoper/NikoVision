@@ -170,20 +170,24 @@ async function CheckWithAI(prompt)
         const data = await response.json();
         const codeResult = document.getElementById('code');
         const wiringContainer = document.getElementById('componentWiringContainer');
-        for(let i = 0; i < components.length; i++)
-        {
+        for (let i = 0; i < data.components.length; i++) {
             const selectComponent = document.createElement('table');
-            for(let z = 0; z < data.components[i].length; z++)
-            {
+
+            const component = data.components[i];
+            for (const key in component) {
                 const tr = document.createElement('tr');
-                for(let y = 0; y < data.components[i][z].length; y++)
-                {
-                    const td = document.createElement('td');
-                    td.textContent = data.components[i][z][y];
-                    tr.appendChild(td);
-                }
+
+                const tdKey = document.createElement('td');
+                tdKey.textContent = key;
+                tr.appendChild(tdKey);
+
+                const tdValue = document.createElement('td');
+                tdValue.textContent = component[key];
+                tr.appendChild(tdValue);
+
                 selectComponent.appendChild(tr);
             }
+
             wiringContainer.appendChild(selectComponent);
         }
         codeResult.textContent = data.code;

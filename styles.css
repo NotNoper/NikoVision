@@ -135,3 +135,27 @@ button:disabled {
   border-radius: 10px;
   border: 1px solid #ddd;
 }
+
+
+#componentWiringContainer {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#componentWiringContainer td, #componentWiringContainer th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#componentWiringContainer tr:nth-child(even){background-color: #f2f2f2;}
+
+#componentWiringContainer tr:hover {background-color: #ddd;}
+
+#componentWiringContainer th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}

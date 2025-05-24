@@ -31,7 +31,7 @@ def upload_image():
                 {
                     "role": "user",
                     "content": [
-                        {"type": "text", "text": "Given this image of a component, return only with the matching component name (e.g, capacitor, led, IC etc.) and its model if able. The response should look like this: Microcontroller:Uno R3. If model is unknown, respond 'unknown'. If it is not a component, respond 'null' in the JSON's: "},
+                        {"type": "text", "text": "Given this image of a component, return only with the matching component name (e.g, capacitor, led, IC etc.) and its model if able. The response should look like this: Microcontroller:Uno R3. If model is unknown, respond 'unknown'. If it is not a component, respond 'null': "},
                         {
                             "type": "image_url",
                             "image_url": {

@@ -20,37 +20,34 @@ def upload_image():
     try:
         print("Received request to upload image")
         data = request.get_json(force=True)
-        img_base64_full = data.get('imageBase64', '')
-        
-        if ',' in img_base64_full:
-            img_base64 = img_base64_full.split(",")[1]
-        else:
-            img_base64 = img_base64_full
-        
+        img_data_url = data.get('imageBase64', '')
+
+        if not img_data_url.startswith("data:image"):
+            raise ValueError("Invalid image data URL")
+
         response = client.chat.completions.create(
             model="gpt-4o", 
             messages=[
                 {
                     "role": "user",
                     "content": [
-                        {"type": "text", "text": "Given this image of a component, return only the matching component name (e.g., capacitor, led, IC etc.). Output only the name of the component. If it is not a component, respond with 'null': "},
+                        {"type": "text", "text": "Given this image of a component, return only the matching component name (e.g, capacitor, led, IC etc.). Output only the name of the component. If it is not a component, respond with 'null': "},
                         {
-                            "type": "image_base64",
-                            "image_base64": {
-                                "base64": img_base64
-                            }
+                            "type": "image_url",
+                            "image_url": {
+                                "url": img_data_url
+                            },
                         },
                     ],
                 }
             ],
         )
 
-        result = response.choices[0].message.content
-        print("OpenAI response:", result)
-        return jsonify({"component_name": result.strip()})
+        result = response.choices[0].message.content.strip()
+        print("Result:", result)
+        return jsonify({"component_name": result})
 
     except Exception as e:
-        print("Error in upload_image:", e)
         return jsonify({'error': str(e)}), 500
 
 

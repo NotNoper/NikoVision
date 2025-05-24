@@ -70,6 +70,10 @@ function AddComponent(knownComponent = null, model = null) {
             input.type = 'text';
             input.required = true;
             input.placeholder = 'Enter model';
+            if(knownComponent.model)
+            {
+                input.value = model;
+            }
             label.appendChild(input);
             detailsDiv.appendChild(label);
         } 
@@ -98,11 +102,6 @@ function AddComponent(knownComponent = null, model = null) {
     {
         selectComponent.value = knownComponent?.type;
         selectComponent.dispatchEvent(new Event('change'));
-        if(knownComponent?.model !== null && (knownComponent === "Microntroller" || knownComponent === 'IC'))
-        {
-            const input = detailsDiv.querySelector('input');
-            input.value = model;
-        }
     }
 
     const deleteButton = document.createElement("button");

@@ -26,7 +26,7 @@ def upload_image():
         with open(filepath, "wb") as f:
             f.write(img_bytes)
 
-        url_param = 'https://nikovision.onrender.com/static/image.png'
+        url_param = 'http://127.0.0.1:5000/static/image.png'
 
         response = client.responses.create(
             model="gpt-4.1",
@@ -68,9 +68,17 @@ def CheckAI():
             input=prompt
         )
 
-        print(response.output_text)
+        response = client.chat.completions.create(
+            model="gpt-4.1",
+            messages=[
+                {"role": "system", "content": "You are a senior engineer working out the wiring of components for someones project. You only respond in JSON"},
+                {"role": "user", "content": prompt}
+            ]
+        )
 
-        return response.output_text.json()
+        print(response['choices'][0]['message']['content'])
+
+        return response['choices'][0]['message']['content']
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500

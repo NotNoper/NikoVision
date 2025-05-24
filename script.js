@@ -16,6 +16,12 @@ async function FindPart(imgBase64) {
         const result = await response.json();
         console.log('Component detected:', result);
         
+        document.getElementById('camera').style.display = "block";
+        canvas.style.display = "none";
+        Array.from(document.getElementsByClassName('container')).forEach(element => {
+            element.style.display = "none";
+        });
+
         AddComponent(result);
 
     } catch (error) {
@@ -33,6 +39,9 @@ function Capture() {
 
     video.style.display = "none";
     canvas.style.display = "block";
+    Array.from(document.getElementsByClassName('container')).forEach(element => {
+        element.style.display = "block";
+    });
 
     const dataURL = canvas.toDataURL('image/png');
     FindPart(dataURL);

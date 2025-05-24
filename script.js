@@ -80,6 +80,7 @@ function AddComponent(knownComponent = null) {
     selectComponent.addEventListener('change', () => {
         detailsDiv.innerHTML = '';
         const selected = selectComponent.value;
+        console.log(selected);
         if (selected === "Microcontroller" || selected === 'IC' || selected === 'Battery' || selected === 'Accelerometer' || selected === 'Gyroscope') {
             const label = document.createElement('label');
             label.textContent = 'Model (required): ';
@@ -87,7 +88,7 @@ function AddComponent(knownComponent = null) {
             input.type = 'text';
             input.required = true;
             input.placeholder = 'Enter model';
-            if(knownComponent.model)
+            if(knownComponent)
             {
                 input.value = knownComponent.model;
             }
@@ -110,7 +111,7 @@ function AddComponent(knownComponent = null) {
         } 
     });
     
-    if(knownComponent.component_name !== null)
+    if(knownComponent)
     {
         selectComponent.value = knownComponent.component_name;
         selectComponent.dispatchEvent(new Event('change'));

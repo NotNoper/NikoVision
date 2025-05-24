@@ -64,7 +64,7 @@ def CheckAI():
         response = client.chat.completions.create(
             model="gpt-4.1",
             messages=[
-                {"role": "system", "content": "You are a senior engineer working out the wiring of components for someones project. You only respond in JSON"},
+                {"role": "system", "content": "You are a senior engineer working out the wiring of components for someones project."},
                 {"role": "user", "content": prompt}
             ]
         )

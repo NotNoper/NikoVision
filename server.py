@@ -31,7 +31,7 @@ def upload_image():
                 {
                     "role": "user",
                     "content": [
-                        {"type": "text", "text": "Given this image of a component, return only with a JSON with the matching component name (e.g, capacitor, led, IC etc.) and its model if able. The JSON should look like this: {'component_name': 'LED', 'model': '5mm Red'}. If it is not a component, respond 'null' in the JSON's: "},
+                        {"type": "text", "text": "Given this image of a component, return only with the matching component name (e.g, capacitor, led, IC etc.) and its model if able. The response should look like this: Microcontroller:Uno R3. If model is unknown, respond 'unknown'. If it is not a component, respond 'null' in the JSON's: "},
                         {
                             "type": "image_url",
                             "image_url": {
@@ -45,7 +45,8 @@ def upload_image():
 
         result = response.choices[0].message.content.strip()
         print("Result:", result)
-        return jsonify({"component_name": result})
+        component = result.split(':', 1)
+        return jsonify({"component_name": component[0], "model": component[1]})
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500

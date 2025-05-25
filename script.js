@@ -130,30 +130,37 @@ function AddComponent(knownComponent = null) {
 
 function GetListData()
 {
-    Array.from(formContainer.children).forEach(componentDiv => {
-        const select = componentDiv.querySelector('select');
-        const componentType = select?.value;
+    if(document.getElementById('projectPrompt').value !== "")
+    {
+        Array.from(formContainer.children).forEach(componentDiv => {
+            const select = componentDiv.querySelector('select');
+            const componentType = select?.value;
 
-        const componentData = { type: componentType };
+            const componentData = { type: componentType };
 
-        if (componentType === 'Microcontroller' || componentType === 'IC') {
-            const input = componentDiv.querySelector('input');
-            if(input.value == "")
-            {
-                return null;
-            }
-            componentData.model = input?.value || '';
-        } 
-        else if (componentType === 'Transistor' || componentType === 'Diode') {
-            const input = componentDiv.querySelector('input');
-            componentData.model = input?.value || '';
-        } 
+            if (componentType === 'Microcontroller' || componentType === 'IC') {
+                const input = componentDiv.querySelector('input');
+                if(input.value == "")
+                {
+                    return null;
+                }
+                componentData.model = input?.value || '';
+            } 
+            else if (componentType === 'Transistor' || componentType === 'Diode') {
+                const input = componentDiv.querySelector('input');
+                componentData.model = input?.value || '';
+            } 
 
-        components.push(componentData);
-    });
+            components.push(componentData);
+        });
 
-    const projectPrompt = document.getElementById('projectPrompt').value;
-    CheckWithAI("Using the provided JSON list of components and their models that the user has (you do not have to use all components, just try and focus on them), generate a JSON file structured as follows: Each component (e.g., 'MOSFET') should include its pin mappings in the format 'Pin1': 'pintoconnect', 'Pin2': 'pintoconnect', etc. Additionally, create a 'code' entry containing any necessary code to implement the wiring connections for each component, ensuring the setup meets the specified project goal. This is the JSON format: 'components': [ { 'name': 'Arduino Uno', 'model': 'Uno R3', 'pins': { 'DigitalPin13': 'LED Anode', 'GND': 'LED Cathode'}},{'name': 'LED','model': '5mm Red','pins': {'Anode (Long leg)': 'Arduino DigitalPin13','Cathode (Short leg)': 'Resistor (1)','Cathode Pass-through': 'Arduino GND'}},{'name': 'Resistor (1)','model': '220 Ohm','pins': {'Pin1': 'LED Cathode','Pin2': 'Arduino GND'}}]. If no code is needed, the 'code' entry can be left empty. If the object is a some sort of microcontroller, respond with Microcontroller. Follow the project exactly:\n" + projectPrompt + "\n" + components)
+        const projectPrompt = document.getElementById('projectPrompt').value;
+        CheckWithAI("Using the provided JSON list of components and their models that the user has (you do not have to use all components, just try and focus on them), generate a JSON file structured as follows: Each component (e.g., 'MOSFET') should include its pin mappings in the format 'Pin1': 'pintoconnect', 'Pin2': 'pintoconnect', etc. Additionally, create a 'code' entry containing any necessary code to implement the wiring connections for each component, ensuring the setup meets the specified project goal. This is the JSON format: 'components': [ { 'name': 'Arduino Uno', 'model': 'Uno R3', 'pins': { 'DigitalPin13': 'LED Anode', 'GND': 'LED Cathode'}},{'name': 'LED','model': '5mm Red','pins': {'Anode (Long leg)': 'Arduino DigitalPin13','Cathode (Short leg)': 'Resistor (1)','Cathode Pass-through': 'Arduino GND'}},{'name': 'Resistor (1)','model': '220 Ohm','pins': {'Pin1': 'LED Cathode','Pin2': 'Arduino GND'} 'code':'// Arduino code goes here'}]. If no code is needed, the 'code' entry can be left empty. If the object is a some sort of microcontroller, respond with Microcontroller. Follow the project exactly:\n" + projectPrompt + "\n" + components)
+    }
+    else
+    {
+        alert("Project prompt is empty!!! 😡😡💅💅✨✨😔😔🍫.");
+    }
 }
 
 function RevealCamera()
@@ -183,6 +190,7 @@ async function CheckWithAI(prompt)
             body: JSON.stringify({ prompt: prompt })
         });
         const data = await response.json();
+        console.log(data);
         const codeResult = document.getElementById('code');
         const wiringContainer = document.getElementById('componentWiringContainer');
         for(let i = 0; i < wiringContainer.children.length; i++)
@@ -229,7 +237,8 @@ async function CheckWithAI(prompt)
 
             wiringContainer.appendChild(selectComponent);
         }
-        codeResult.textContent = data.code;
+        codeResult.innerHTML = data.code;
+
         Array.from(document.getElementsByClassName('container')).forEach(element => {
             element.style.display = "none";
         });

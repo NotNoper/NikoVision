@@ -176,7 +176,7 @@ async function CheckWithAI(prompt)
             element.style.display = "block";
         });
 
-        const responseInitial = await fetch('https://nikovision.onrender.com/check-ai', {
+        const response = await fetch('https://nikovision.onrender.com/check-ai', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ prompt: prompt })

@@ -30,6 +30,7 @@ async function FindPart(imgBase64) {
 }
 
 
+
 function Capture() {
     const video = document.getElementById('camera');
     canvas.width = video.videoWidth;

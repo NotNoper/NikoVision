@@ -49,7 +49,7 @@ function SignInTwo() {
 }
 
 function Register() {
-    alert("no");
+    document.location='register.html';
 }
 
 function Capture() {

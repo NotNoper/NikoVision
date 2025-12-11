@@ -1,8 +1,24 @@
 <!DOCTYPE html>
 <head>
     <link rel = "stylesheet" href = "styles.css">
-    <h1>Wiring Wizard</h1>
 </head>
+<div class="topnav">
+  <a href="main.html">Home</a>
+
+  <div class="dropdown">
+    <div class="dropbtn" onclick="toggleDropdown()">Tools ▼</div>
+    <div class="dropdown-content" id="toolsDropdown">
+      <a href="tool1.html">Component Playground</a>
+      <a class="active" href="index.html">Project Builder</a>
+      <a href="tool2.html">Component Lookup</a>
+    </div>
+  </div>
+  <a href="#about">About</a>
+</div>
+<div>
+    <h1>Open Circuit</h1>
+    <h2>Project Builder</h2>
+</div>
 <br>
 <div id = "componentListContainer">
     <input type="text" placeholder="What would you like to make?" id = "projectPrompt">
@@ -26,7 +42,7 @@
 <div>
     <button onclick = "GetListData()">Submit</button>
     <div id="componentWiringContainer"></div>
-    <hr>
+    <br>
     <pre id = "code"></pre>
 </div>  
 <script src = "script.js"></script>

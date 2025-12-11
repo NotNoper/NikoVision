@@ -29,7 +29,28 @@ async function FindPart(imgBase64) {
     }
 }
 
+function toggleDropdown() {
+  document.getElementById("toolsDropdown").classList.toggle("show");
+}
 
+window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+    document.querySelectorAll(".dropdown-content.show")
+      .forEach(d => d.classList.remove("show"));
+  }
+};
+
+function SignIn() {
+    document.location='signin.html';
+}
+
+function SignInTwo() {
+    document.location='main.html';
+}
+
+function Register() {
+    alert("no");
+}
 
 function Capture() {
     const video = document.getElementById('camera');
